@@ -1,0 +1,14 @@
+image:
+  repository: postgres
+  tag: "15"
+
+auth:
+  username: sonar
+  password: sonarpass
+  database: sonarqube
+
+persistence:
+  size: 8Gi
+
+service:
+  port: 5432

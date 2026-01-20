@@ -1,0 +1,17 @@
+image:
+  repository: postgres
+  tag: "15"
+
+postgresql:
+  username: sonar
+  password: sonarpass
+  database: sonarqube
+
+persistence:
+  enabled: true
+  size: 8Gi
+
+service:
+  type: ClusterIP
+  port: 5432
+
