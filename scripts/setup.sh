@@ -308,8 +308,9 @@ print_access_instructions() {
 
 preflight() {
   log "Running pre-flight checks"
-  detect_ubuntu
   sudo_keepalive
+  detect_ubuntu
+  
 
   if [[ ! -d "${TERRAFORM_DIR}" ]]; then
     err "Expected Terraform directory not found: ${TERRAFORM_DIR}"
@@ -325,6 +326,7 @@ main() {
 
   install_base_dependencies
   install_docker
+  
   install_minikube
   install_kubectl
   install_helm

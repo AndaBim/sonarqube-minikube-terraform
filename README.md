@@ -125,10 +125,11 @@ This is intentional:
 
 The bootstrap script:
 
-- installs prerequisites
 - ensures Docker is usable
 - handles Docker group membership if needed
 - runs the full setup automatically
+
+Note! setup.sh may run more than once to apply Docker group membership; all steps are idempotent.
 
 ---
 
