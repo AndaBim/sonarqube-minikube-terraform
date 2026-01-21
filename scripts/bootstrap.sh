@@ -26,4 +26,4 @@ fi
 
 # Docker installed but group membership not yet applied
 echo "[INFO] Docker group change required, restarting in new group shell"
-exec newgrp docker -c "${SCRIPT_DIR}/setup.sh"
+exec newgrp docker -c "${SCRIPT_DIR}/bootstrap.sh"
