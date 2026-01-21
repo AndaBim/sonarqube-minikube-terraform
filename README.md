@@ -129,7 +129,9 @@ The bootstrap script:
 - handles Docker group membership if needed
 - runs the full setup automatically
 
-Note! setup.sh may run more than once to apply Docker group membership; all steps are idempotent.
+Docker group membership is applied automatically.
+The setup may restart once internally to apply permissions.
+No manual logout, newgrp, or reruns are required.
 
 ---
 

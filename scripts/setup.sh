@@ -116,6 +116,16 @@ install_docker() {
   log "Docker installed."
 }
 
+ensure_docker_usable() {
+  if docker info >/dev/null 2>&1; then
+    return 0
+  fi
+
+  warn "Docker not usable yet (likely new group membership)."
+  warn "Exiting so bootstrap.sh can re-run in correct group context."
+  exit 0
+}
+
 install_minikube() {
   if need_cmd minikube; then
     log "Minikube already installed, skipping"
@@ -325,12 +335,14 @@ main() {
   preflight
 
   install_base_dependencies
+
   install_docker
-  
-  install_minikube
+  ensure_docker_usable
+
   install_kubectl
   install_helm
   install_terraform
+  install_minikube
 
   start_minikube
   enable_ingress
