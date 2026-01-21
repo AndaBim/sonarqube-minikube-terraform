@@ -113,31 +113,7 @@ install_docker() {
   sudo groupadd docker >/dev/null 2>&1 || true
   sudo usermod -aG docker "$USER" >/dev/null 2>&1 || true
 
-  log "Docker installed. Ensuring the script continues with docker group permissions."
-}
-
-ensure_docker_access_or_reexec() {
-  # If docker requires sudo, Minikube (docker driver) can fail for non-root.
-  # We re-exec the script under the docker group using 'sg', avoiding logout/login.
-  if docker info >/dev/null 2>&1; then
-    log "Docker is usable without sudo"
-    return 0
-  fi
-
-  if groups | tr ' ' '\n' | grep -qx docker; then
-    # User is in docker group but session may not have picked it up yet.
-    # Re-exec under docker group to apply group membership in this run.
-    if [[ "${REEXEC_UNDER_DOCKER_GROUP:-}" != "1" ]]; then
-      log "Re-executing script under 'docker' group (no logout required)"
-      export REEXEC_UNDER_DOCKER_GROUP="1"
-      exec sg docker -c "$0 ${*:-}"
-    fi
-  fi
-
-  # Last attempt: if still failing, stop with a clear error.
-  err "Docker is not usable without sudo, and group escalation did not succeed."
-  err "Please run: newgrp docker  (or log out/in), then rerun: ./scripts/setup.sh"
-  exit 1
+  log "Docker installed."
 }
 
 install_minikube() {
@@ -349,10 +325,6 @@ main() {
 
   install_base_dependencies
   install_docker
-
-  # Ensure docker permissions are effective in this run (no manual logout)
-  ensure_docker_access_or_reexec "$@"
-
   install_minikube
   install_kubectl
   install_helm

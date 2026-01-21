@@ -31,7 +31,7 @@ resource "helm_release" "sonarqube" {
   chart      = "sonarqube"
   version    = "10.5.0"
 
-  timeout = 900
+  timeout = 1800
   wait    = true
 
   values = [
