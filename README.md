@@ -83,6 +83,17 @@ This is intentional:
 - Minikube (Docker driver) **refuses to run as root**
 - Running everything as root breaks cluster creation
 
+### Minikube startup note (KIC artifact message)
+
+During Minikube startup, the following message may appear:
+
+    Error downloading kic artifacts: failed to download kic base image or any fallback image
+
+This is an informational message related to Minikube running with the Docker driver and the overlayfs storage backend. Despite the wording, the required images are typically
+downloaded successfully, and the cluster continues to start normally. 
+
+No user action required here, just need to wait a while - the script will continue to run.
+
 ---
 ## Repository Structure
 .
@@ -131,7 +142,7 @@ The bootstrap script:
 
 Docker group membership is applied automatically.
 The setup may restart once internally to apply permissions.
-No manual logout, newgrp, or reruns are required.
+No manual logout or reruns are required.
 
 ---
 
@@ -169,6 +180,7 @@ The automation performs the following steps in order:
 ### Windows + WSL2
 
 1. When running Minikube inside WSL2 using the Docker driver, the Minikube internal network (e.g. 192.168.49.0/24) was not routable from the Windows host. As a result, the Ingress host (sonarqube.local) may be reachable from inside WSL but it was not from a Windows browser.
+
 In this case, Minikube’s service URL output was used as the browser endpoint:
 
     minikube service sonarqube-sonarqube -n sonarqube --url
