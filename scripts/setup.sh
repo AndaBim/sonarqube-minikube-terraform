@@ -121,7 +121,7 @@ ensure_docker_usable() {
     return 0
   fi
 
-  warn "Docker not usable yet (likely new group membership)."
+  warn "Docker installed but not usable yet (group change pending)"
   warn "Exiting so bootstrap.sh can re-run in correct group context."
   exit 0
 }
