@@ -27,6 +27,8 @@ if docker info >/dev/null 2>&1; then
   exec "${SCRIPT_DIR}/setup.sh"
 fi
 
-# Docker installed but group not active → re-enter bootstrap
-echo "[INFO] Docker group applied; re-running setup in docker group"
-exec sg docker -c "${SCRIPT_DIR}/setup.sh"
+# Docker exists but not usable → group issue
+if ! groups | grep -q '\bdocker\b'; then
+  log "Docker group missing; re-running setup under docker group"
+  exec sg docker -c "${SCRIPT_DIR}/setup.sh"
+fi
